@@ -17,6 +17,7 @@ SM2_x64*
 *Release/
 *.db
 *.sdf
+*.opensdf
 
 
 
