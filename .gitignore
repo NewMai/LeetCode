@@ -1,0 +1,22 @@
+~$gsm*
+.vscode/
+.vs/
+build/
+My Amplifier Results*
+x64/
+SM2_x64*
+*.tmp
+*.obj
+~$*
+*.opendb
+*.sln
+*.vcxproj
+*.filters
+*.user
+*Debug/
+*Release/
+*.db
+*.sdf
+
+
+
