@@ -1,132 +1,109 @@
 
-#include "common.h"
+#include "../common.h"
+#include<numeric>
 
 // https://leetcode-cn.com/problems/3sum/
+// AC after reference the other answer
+
 class Solution 
 {
 public:
-
 	vector<vector<int>> threeSum(vector<int>& nums)
 	{
-		char buf[100] = {0};
-		set<string> st;
-		
 		vector<vector<int>> ret;
-		int size = 0;
-		int i = 0, j = 0, k = 0;
-		int a, b, c, t;
-		int oldsize = 0;
-		int low, high, mid;
+		set<vector<int>> myset;
+		int i = 0, j = 0;
+		int start = 0, end = 0;
+		int sum = 0;
+		int pre = -1, cur = 0;
 
-		size = nums.size();
-		sort(nums.begin(), nums.end(), less<int>());
+		if (nums.size() < 3) return ret;
+		
+		//sum = accumulate(nums.begin(), nums.end(), 0);
+		//if (sum == 0) return 0;
 
-		for(i = 0; i < size; i++)
+		//for (i = 0; i < nums.size(); i++)
+		//{
+		//	if (nums[i] != 0) break;
+		//}
+		//if (i == nums.size())
+		//{
+		//	vector<int> v = { 0, 0, 0 };
+		//	ret.push_back(v);
+		//	return ret;
+		//}
+
+		sort(nums.begin(), nums.end());
+		//nums.erase(unique(nums.begin(), nums.end()), nums.end());
+
+		for (i = 0; i < nums.size(); i++)
 		{
-			a = nums[i];
-			if (a > 0) break;
-			
-			low = i + 1;
-			high = size - 1;
-			while (low < high)
+			start = i + 1; 
+			end = nums.size() - 1;
+			while (start < end)
 			{
-				b = nums[low];
-				c = nums[high];
-				t = a + b + c;
-				if (t < 0) low += 1;
-				else if (t > 0) high -= 1;
-				else 
+				if (start > i + 1 && nums[start] == nums[start - 1])
 				{
-					vector<int> tv;
-					tv.push_back(a);
-					tv.push_back(nums[low]);
-					tv.push_back(nums[high]);
-					ret.push_back(tv);
-					low += 1;
-					high -= 1;
+					start++;
+					continue;
+				}
+				if (end < nums.size() - 1 && nums[end] == nums[end + 1])
+				{
+					end--;
+					continue;
+				}
+
+				sum = nums[i] + nums[start] + nums[end];
+		
+				if (sum < 0) start++;
+				else if (sum > 0) end--;
+				else
+				{
+					vector<int> v = { nums[i], nums[start], nums[end] };
+					pre = myset.size();
+					myset.insert(v);
+					cur = myset.size();
+					if(cur > pre) ret.push_back(v);
+					start++;
+					end--;
 				}
 			}
 		}
-		set<vector<int>> ts(ret.begin(), ret.end());
-		vector<vector<int>> ret2(ts.begin(), ts.end());
-		return ret2;
 
+		return ret;
 	}
 
 };
 
 
-int main2()
+int main()
 {
-	//int src[10] = {-1, 0, 1, 2, -1, -4};
-	int src[10] = { 0,0,0,0,0,0, };
-	//int src[10] = { 0,0 };
-	int i = 0, j = 0;
-	Solution s;
-	vector<int> data(src, src+6);
+	Solution sln;
 	vector<vector<int>> ret;
-	vector<int> v;
+	int i = 0, j = 0;
+	vector<int> nums = { -1, 0, 1, 2, -1, -4 };
 
-	ret = s.threeSum(data);
 
+	ret = sln.threeSum(nums);
+
+	cout << "[" << endl;
 	for (i = 0; i < ret.size(); i++)
 	{
+		cout << "\t[";
 		for (j = 0; j < ret[i].size(); j++)
 		{
-			printf("%d,", ret[i][j]);
+			if (j > 0) cout << ",";
+			cout << ret[i][j];
 		}
-		puts("");
-		//printf("[%d,%d,%d]\n", ret[i][0], ret[i][1], ret[i][2]);
+		cout << "]" << endl;
 	}
-	
+	cout << "]" << endl;
+
+
 	return 0;
 }
 
 
-//
-//int main()
-//{
-//	map<int, int> m;
-//	static char src[0x10000];
-//
-//	int len = 0, tlen;
-//	int sum = 0;
-//	int key = 0, value = 0;
-//	int i = 1, j = 0;
-//
-//	len = scanf("%s", src);
-//	//gets(src, sizeof(src));
-//	len = strlen(src);
-//	scanf("%d", &sum);
-//	src[len - 1] = 0;  // Remove "]"
-//	len -= 1;
-//
-//	j = 0;
-//	while (1)
-//	{
-//		sscanf(src + i, "%d", &value);
-//		if (value <= sum)
-//		{
-//			if (m.find(value) != m.end())
-//			{
-//				// Find it
-//				printf("[%d,%d]\n", m[value], j);
-//				break;
-//			}
-//			key = sum - value;
-//			m[key] = j++;
-//		}
-//		while (i < len && src[i] != ',') i++;
-//		i += 1;
-//		if (i >= len)
-//		{
-//			// End
-//			break;
-//		}
-//	}
-//
-//	return 0;
-//}
 
 
 
