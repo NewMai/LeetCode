@@ -78,7 +78,54 @@ public:
 
 		return ret;
 	}
+	vector<vector<int>> fourSum2(vector<int>& nums, int target)
+	{
+		vector<vector<int>> ret = {};
+		struct D
+		{
+			int i;
+			int j;
+			D() { i = -1; j = -1; }
+			D(int a, int b) { i = a; j = b; }
+		};
+		map<int, vector<D>> myMap;
+		vector<int> nums2;
+		int i = 0, j = 0, k = 0;
+		int start = 0, end = 0;
+		int sum = 0;
+		int tmp_target = 0;
 
+		if (nums.size() < 4) return ret;
+		if (nums.size() == 4)
+		{
+			for (sum = 0, i = 0; i < 4; i++)
+			{
+				sum += nums[i];
+			}
+			if (sum == target)
+			{
+				vector<int> tv = { nums[0], nums[1], nums[2], nums[3] };
+				ret.push_back(tv);
+			}
+			return ret;
+		}
+
+		sort(nums.begin(), nums.end());
+		for (i = 0; i < nums.size() - 1; i++)
+		{
+			for (j = i + 1; j < nums.size(); j++)
+			{
+				sum = nums[i] + nums[j];
+				D d(i, j);
+				myMap[sum].push_back(d);
+				nums2.push_back(sum);
+			}
+		}
+
+
+
+		return ret;
+	}
 };
 
 
@@ -99,7 +146,7 @@ int main()
 	vector<int> nums = { -1,0,-5,-2,-2,-4,0,1,-2 };
 	int target = -9;
 
-	ret = sln.fourSum(nums, target);
+	ret = sln.fourSum2(nums, target);
 
 	cout << "[" << endl;
 	for (i = 0; i < ret.size(); i++)
