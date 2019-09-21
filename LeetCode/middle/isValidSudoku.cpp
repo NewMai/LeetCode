@@ -2,7 +2,7 @@
 #include "../common.h"
 
 // https://leetcode-cn.com/problems/valid-sudoku/
-// 
+// AC
 
 class Solution 
 {
