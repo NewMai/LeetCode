@@ -15,10 +15,9 @@ public:
 		char c = 0;
 		struct D
 		{
-			uint64_t len;
-			int start;
+			int len;
 			int end;
-			D() : len(0), start(0), end(0) {}
+			D() : len(0), end(0) {}
 		};
 		vector<D> dp(size + 2);
 
@@ -32,7 +31,6 @@ public:
 				j = dp[i + 1].end + 1;
 				if (s[i + 1] == ')')
 				{
-					dp[i].start = i;
 					k = i + 2;
 					if (k < size && dp[k].len > 0)
 					{
@@ -53,7 +51,6 @@ public:
 				else if (dp[i + 1].len > 0 && j < size && s[j] == ')')
 				{
 					dp[i].len = dp[i + 1].len + 2;
-					dp[i].start = i;
 					dp[i].end = j;
 					if ((j + 1) < size && dp[j + 1].len > 0)
 					{
