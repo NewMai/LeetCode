@@ -8,10 +8,11 @@ class Solution
 {
 	vector<vector<int>> m_ans;
 	vector<int> m_nums;
+	set<int> m_nums_set;
 
 public:
 
-	vector<vector<int>> solve(int cur)
+	vector<vector<int>> solveDFS(int cur)
 	{
 		vector<vector<int>> ret;
 		vector<vector<int>> tmp;
@@ -20,78 +21,7 @@ public:
 		int size = m_nums.size();
 		int step = 2;
 
-		if (cur == size - 2)
-		{
-			t.push_back(m_nums[cur]);
-			t.push_back(m_nums[cur+1]);
-			ret.push_back(t);
-			return ret;
-		}
-
-		tmp = solve(cur + 1);
-
-		// Copy from previous result
-		for (i = 0; i < tmp.size(); i++)
-		{
-			ret.push_back(tmp[i]);
-		}
-
-		// New form of two numbers
-		if (m_nums[cur] != m_nums[cur + 1])
-		{
-			for (i = cur + 1; i < size; i++)
-			{
-				if (m_nums[i] == m_nums[i - 1]) continue;
-
-				t.push_back(m_nums[cur]);
-				t.push_back(m_nums[i]);
-				ret.push_back(t);
-				t.clear();
-			}
-		}
-
-		// Add current number and with previous result
-		for (i = 0; i < tmp.size(); i++)
-		{
-			if (tmp[i].size() <= 2) continue; 
-
-			// Delete one number from the return set
-			for (j = 1; j < tmp[i].size(); j++)  
-			{
-				//if (tmp[i][j] == m_nums[cur]) continue;
-				if (j > 0 && tmp[i][j] == tmp[i][j - 1]) continue;
-				t.clear();
-				t.push_back(m_nums[cur]);
-
-				for (k = 0; k < tmp[i].size(); k++)
-				{
-					if (k == j) continue; // Delete tmp[i][j] element
-					if (k > 0 && tmp[i][k] == tmp[i][k - 1])
-					{
-						t.clear();
-						break;
-					}
-					t.push_back(tmp[i][k]);
-				}
-				ret.push_back(t);
-				t.clear();
-			}
-		}
-
-		// Add current element to the previous result
-		for (i = 0; i < tmp.size(); i++)
-		{
-			t.clear();
-			t.push_back(m_nums[cur]);
-			for (j = 0; j < tmp[i].size(); j++)
-			{
-				t.push_back(tmp[i][j]);
-			}
-			ret.push_back(t);
-			t.clear();
-		}
-
-
+		
 		return ret;
 	}
 
