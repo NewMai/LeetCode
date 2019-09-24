@@ -16,13 +16,16 @@ public:
 		int curN = 0;
 		int curL = 0;
 		int max = 0;
-		unordered_map<int, int> mp;
-		unordered_map<int, int>::iterator itmp;
+		//unordered_map<int, int> mp;
+		//unordered_map<int, int>::iterator itmp;
 	
+		unordered_set<int> us;
+		unordered_set<int>::iterator itus;
 
 		for (i = 0; i < size; i++)
 		{
-			mp[nums[i]] = 1;
+			//mp[nums[i]] = 1;
+			us.insert(nums[i]);
 		}
 
 		for (i = 0; i < size; i++)
@@ -32,13 +35,16 @@ public:
 			
 			do
 			{
-				itmp = mp.end();
+				//itmp = mp.end();
+				itus = us.end();
 				curN++;
 				curL++;
 				//t = mp[curN];
-				itmp = mp.find(curN);
+				//itmp = mp.find(curN);
+				itus = us.find(curN);
 
-			} while (itmp != mp.end());
+			//} while (itmp != mp.end());
+			} while (itus != us.end());
 
 			if (curL > max) max = curL;
 		}
