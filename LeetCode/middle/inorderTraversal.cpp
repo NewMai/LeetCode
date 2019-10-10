@@ -5,16 +5,56 @@
 // AC
 
 
+#define NULL_NODE (INT_MIN)
 
 // Definition for a binary tree node.
-struct TreeNode {
+struct TreeNode 
+{
     int val;
     TreeNode *left;
     TreeNode *right;
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
+TreeNode* CreateTree(vector<int>& nums)
+{
+	TreeNode* root = NULL;
+	queue<TreeNode*> nq;
+	TreeNode* p = NULL, *q = NULL;
+	int i = 0;
 
+	if (nums.size() == 0) return root;
+	
+	i = 0;
+	p = new TreeNode(nums[i]);
+	root = p;
+	nq.push(p);
+	i++;
+
+	while (nq.empty() == false)
+	{
+		p = nq.front();
+		nq.pop();
+
+		if (i < nums.size() && nums[i] != NULL_NODE)
+		{
+			q = new TreeNode(nums[i]);
+			p->left = q;
+			nq.push(q);
+		}
+		i++;
+
+		if (i < nums.size() && nums[i] != NULL_NODE)
+		{
+			q = new TreeNode(nums[i]);
+			p->right = q;
+			nq.push(q);
+		}
+		i++;
+	}
+
+	return root;
+}
 
 class Solution 
 {
@@ -88,17 +128,11 @@ int main()
 {
 	Solution sln;
 	vector<int> ret;
-	vector<int> nums = { 1,8,6,2,5,4,8,3,7 };
+	//vector<int> nums = { 1,NULL_NODE,2,3 };
+	vector<int> nums = { 1, 5, 6, 7,2,NULL_NODE,NULL_NODE,3,9,};
 	TreeNode* root;
 
-	TreeNode x1(1);
-	TreeNode x2(2);
-	TreeNode x3(3);
-
-	root = &x1;
-	x1.right = &x2;
-	x2.left = &x3;
-
+	root = CreateTree(nums);
 	ret = sln.inorderTraversal(root);
 	printV(ret);
 
