@@ -19,7 +19,7 @@ struct TreeNode {
 class Solution 
 {
 public:
-	vector<int> inorderTraversal(TreeNode* root)
+	vector<int> inorderTraversal_rec(TreeNode* root)
 	{
 		vector<int> ret;
 		vector<int> left;
@@ -49,6 +49,37 @@ public:
 
 		return ret;
 	}
+	vector<int> inorderTraversal(TreeNode* root)
+	{
+		vector<int> ret;
+		vector<TreeNode*> nStack;
+		TreeNode* p = root;
+		int i = 0, j = 0;
+
+
+		if (!p)
+		{
+			return ret;
+		}
+
+		do
+		{
+			while (p)
+			{
+				nStack.push_back(p);
+				p = p->left;
+			}
+
+			p = nStack.back();
+			nStack.pop_back();
+
+			ret.push_back(p->val);
+			p = p->right;
+
+		}while (nStack.empty() == false || p);
+
+		return ret;
+	}
 
 };
 
@@ -59,6 +90,14 @@ int main()
 	vector<int> ret;
 	vector<int> nums = { 1,8,6,2,5,4,8,3,7 };
 	TreeNode* root;
+
+	TreeNode x1(1);
+	TreeNode x2(2);
+	TreeNode x3(3);
+
+	root = &x1;
+	x1.right = &x2;
+	x2.left = &x3;
 
 	ret = sln.inorderTraversal(root);
 	printV(ret);
