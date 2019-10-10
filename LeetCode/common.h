@@ -14,6 +14,7 @@
 #include<set>
 #include<map>
 #include<stack>
+#include<queue>
 #include<algorithm>
 
 #include<unordered_map>
@@ -22,6 +23,22 @@
 
 
 using namespace std;
+
+
+static void printV(const vector<int>& ret)
+{
+	int i = 0;
+
+
+	puts("[");
+	printf("    ");
+	for (i = 0; i < ret.size(); i++)
+	{
+		printf("%-3d, ", ret[i]);
+	}
+	puts("");
+	puts("]");
+}
 
 
 static void printVV1(const vector<vector<int>>& ret)
