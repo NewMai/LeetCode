@@ -1,5 +1,5 @@
 
-#include "./common.h"
+#include "../common.h"
 
 // https://leetcode-cn.com/problems/
 // 
