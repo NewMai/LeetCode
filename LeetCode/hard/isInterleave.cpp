@@ -13,7 +13,6 @@ public:
 		int len1 = s1.length();
 		int len2 = s2.length();
 		int len3 = s3.length();
-		int maxlen = 0;
 
 		while (k < len3)
 		{
@@ -21,18 +20,10 @@ public:
 			{
 				if (s1[i] == s3[k])
 				{
-					maxlen = 1;
-					while ((i + maxlen < len1) && (j + maxlen < len2) && s1[i + maxlen] == s2[j + maxlen] && s1[i + maxlen] == s3[k + maxlen])
-						maxlen++;
-					while (maxlen > 0)
-					{
-						ret = isInterleaveInternal(s1, i + maxlen, s2, j, s3, k + maxlen);
-						if (ret) return true;
-						ret = isInterleaveInternal(s1, i, s2, j + maxlen, s3, k + maxlen);
-						if (ret) return true;
-						maxlen--;
-					}
-					return false;
+					ret = isInterleaveInternal(s1, i + 1, s2, j, s3, k + 1);
+					if (ret) return true;
+					ret = isInterleaveInternal(s1, i, s2, j + 1, s3, k + 1);
+					return ret;
 				}
 				else return false;
 			}
