@@ -2,21 +2,17 @@
 #include "../common.h"
 
 // https://leetcode-cn.com/problems/interleaving-string/
-// 
+// AC
 
 class Solution 
 {
 public:
-	bool isInterleave(string s1, string s2, string s3)
+	bool isInterleaveInternal(string& s1, int i, string& s2, int j, string& s3, int k)
 	{
 		bool ret = 0;
-		int i = 0, j = 0, k = 0;
-
 		int len1 = s1.length();
 		int len2 = s2.length();
 		int len3 = s3.length();
-
-		if ((len1 + len2) != len3) return false;
 
 		while (k < len3)
 		{
@@ -24,9 +20,9 @@ public:
 			{
 				if (s1[i] == s3[k])
 				{
-					ret = isInterleave(s1.substr(i + 1), s2.substr(j), s3.substr(k + 1));
+					ret = isInterleaveInternal(s1, i + 1, s2, j, s3, k + 1);
 					if (ret) return true;
-					ret = isInterleave(s1.substr(i), s2.substr(j + 1), s3.substr(k + 1));
+					ret = isInterleaveInternal(s1, i, s2, j + 1, s3, k + 1);
 					return ret;
 				}
 				else return false;
@@ -46,7 +42,16 @@ public:
 
 		return true;
 	}
+	bool isInterleave(string s1, string s2, string s3)
+	{
+		int i = 0, j = 0, k = 0;
+		int len1 = s1.length();
+		int len2 = s2.length();
+		int len3 = s3.length();
 
+		if ((len1 + len2) != len3) return false;
+		return isInterleaveInternal(s1, i, s2, j, s3, k);
+	}
 };
 
 
