@@ -75,8 +75,8 @@ void inorderPrintTree(TreeNode* root)
 
 class Solution 
 {
-	int m_ans[1000];
-	int solve(vector<int>& nums, int low, int high)
+	int* m_ans;
+	int solve(int low, int high)
 	{
 		int ret = 0;
 		int left = 0;
@@ -95,31 +95,18 @@ class Solution
 
 		for (i = low; i <= high; i++)
 		{
-			left = solve(nums, low, i - 1);
-			right = solve(nums, i+1, high);
+			left = solve(low, i - 1);
+			right = solve(i+1, high);
 
 			if (left == 0)
 			{
-				if (right == 0)
-				{
-					ret += 1;
-				}
-				else
-				{
-					ret += right;
-				}
+				if (right == 0) ret += 1;
+				else ret += right;
 			}
 			else // left.size() > 0
 			{
-				if (right == 0)
-				{
-					ret += left;
-				}
-				else
-				{
-					ret += left * right;
-				}
-				
+				if (right == 0) ret += left;
+				else ret += left * right;
 			}
 		}
 
@@ -131,7 +118,8 @@ public:
 	{
 		int i = 0, j = 0;
 		vector<int> nums;
-		memset(m_ans, 0, 1000);
+		m_ans = new int[n + 3];
+		memset(m_ans, 0, n + 3);
 		m_ans[1] = 1;
 		m_ans[2] = 2;
 		int ret = 0;
@@ -141,13 +129,9 @@ public:
 			return 0;
 		}
 
-		for (i = 1; i <= n; i++)
-		{
-			nums.push_back(i);
-		}
-
-		ret = solve(nums, 0, n - 1);
+		ret = solve(1, n);
 		
+		delete m_ans;
 		return ret;
 	}
 
