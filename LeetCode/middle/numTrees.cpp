@@ -75,20 +75,17 @@ void inorderPrintTree(TreeNode* root)
 
 class Solution 
 {
-	vector<TreeNode*> solve(vector<int>& nums, int low, int high)
+	int solve(vector<int>& nums, int low, int high)
 	{
-		vector<TreeNode*> ret;
-		vector<TreeNode*> left;
-		vector<TreeNode*> right;
-		TreeNode* p = NULL;
+		int ret = 0;
+		int left = 0;
+		int right = 0;
 		int i = 0, j = 0, k = 0;
 
-		if (low > high) return ret;
+		if (low > high) return 0;
 		if (low == high)
 		{
-			p = new TreeNode(nums[low]);
-			ret.push_back(p);
-			return ret;
+			return 1;
 		}
 
 		for (i = low; i <= high; i++)
@@ -96,50 +93,26 @@ class Solution
 			left = solve(nums, low, i - 1);
 			right = solve(nums, i+1, high);
 
-			if (left.size() == 0)
+			if (left == 0)
 			{
-				if (right.size() == 0)
+				if (right == 0)
 				{
-					p = new TreeNode(nums[i]);
-					ret.push_back(p);
-					p == NULL;
+					ret += 1;
 				}
 				else
 				{
-					for (j = 0; j < right.size(); j++)
-					{
-						p = new TreeNode(nums[i]);
-						ret.push_back(p);
-						p->right = right[j];
-						p == NULL;
-					}
+					ret += right;
 				}
 			}
 			else // left.size() > 0
 			{
-				if (right.size() == 0)
+				if (right == 0)
 				{
-					for (j = 0; j < left.size(); j++)
-					{
-						p = new TreeNode(nums[i]);
-						ret.push_back(p);
-						p->left = left[j];
-						p == NULL;
-					}
+					ret += left;
 				}
 				else
 				{
-					for (j = 0; j < left.size(); j++)
-					{
-						for (k = 0; k < right.size(); k++)
-						{
-							p = new TreeNode(nums[i]);
-							ret.push_back(p);
-							p->left = left[j];
-							p->right = right[k];
-							p == NULL;
-						}
-					}
+					ret += left * right;
 				}
 				
 			}
@@ -150,11 +123,9 @@ class Solution
 public:
 	int numTrees(int n)
 	{
-		vector<TreeNode*> ret;
-		vector<TreeNode*> left;
-		vector<TreeNode*> right;
 		int i = 0, j = 0;
 		vector<int> nums;
+		int ret = 0;
 
 		if (n <= 0)
 		{
@@ -168,7 +139,7 @@ public:
 
 		ret = solve(nums, 0, n - 1);
 		
-		return ret.size();
+		return ret;
 	}
 
 };
