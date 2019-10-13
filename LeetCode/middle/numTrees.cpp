@@ -83,31 +83,15 @@ class Solution
 		int right = 0;
 		int i = 0, j = 0, k = 0;
 
-		if (low > high) return 0;
-		if (low == high)
-		{
-			return 1;
-		}
-		if (m_ans[high - low + 1] > 0)
-		{
-			return m_ans[high - low + 1];
-		}
+		if (low >= high) return 1;
+		if (m_ans[high - low + 1] > 0) return m_ans[high - low + 1];
 
 		for (i = low; i <= high; i++)
 		{
 			left = solve(low, i - 1);
 			right = solve(i+1, high);
 
-			if (left == 0)
-			{
-				if (right == 0) ret += 1;
-				else ret += right;
-			}
-			else // left.size() > 0
-			{
-				if (right == 0) ret += left;
-				else ret += left * right;
-			}
+			ret += left * right;
 		}
 
 		m_ans[high - low + 1] = ret;
@@ -131,7 +115,7 @@ public:
 
 		ret = solve(1, n);
 		
-		delete m_ans;
+		delete[] m_ans;
 		return ret;
 	}
 
