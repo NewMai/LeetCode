@@ -61,14 +61,14 @@ void inorderPrintTree(TreeNode* root)
 
 	if (root->left)
 	{
-		InorderPrintTree(root->left);
+		inorderPrintTree(root->left);
 	}
 
 	printf("%-3d,", root->val);
 
 	if (root->right)
 	{
-		InorderPrintTree(root->right);
+		inorderPrintTree(root->right);
 	}
 
 }
