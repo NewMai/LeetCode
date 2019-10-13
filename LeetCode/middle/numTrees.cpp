@@ -2,7 +2,7 @@
 #include "../common.h"
 
 // https://leetcode-cn.com/problems/unique-binary-search-trees/
-// 
+// AC
 
 #define NULL_NODE (INT_MIN)
 
@@ -75,6 +75,7 @@ void inorderPrintTree(TreeNode* root)
 
 class Solution 
 {
+	int m_ans[1000];
 	int solve(vector<int>& nums, int low, int high)
 	{
 		int ret = 0;
@@ -86,6 +87,10 @@ class Solution
 		if (low == high)
 		{
 			return 1;
+		}
+		if (m_ans[high - low + 1] > 0)
+		{
+			return m_ans[high - low + 1];
 		}
 
 		for (i = low; i <= high; i++)
@@ -118,6 +123,7 @@ class Solution
 			}
 		}
 
+		m_ans[high - low + 1] = ret;
 		return ret;
 	}
 public:
@@ -125,6 +131,9 @@ public:
 	{
 		int i = 0, j = 0;
 		vector<int> nums;
+		memset(m_ans, 0, 1000);
+		m_ans[1] = 1;
+		m_ans[2] = 2;
 		int ret = 0;
 
 		if (n <= 0)
