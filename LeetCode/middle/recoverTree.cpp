@@ -2,7 +2,7 @@
 #include "../common.h"
 
 // https://leetcode-cn.com/problems/recover-binary-search-tree/
-// 
+// AC
 
 #define NULL_NODE (INT_MIN)
 
@@ -77,8 +77,6 @@ class Solution
 {
 	vector<TreeNode*> m_nodes;
 	vector<TreeNode*> m_pNodes;  // Parent node
-	int m_firstInvalidNode;
-	int m_secondInvalidNode;
 public:
 	void solve(TreeNode* root, TreeNode* pRoot)
 	{
@@ -101,11 +99,12 @@ public:
 		int i = 0, j = 0;
 		TreeNode *left, *right;
 		int value = 0;
+		int minV = 0;
+		int minI = 0;
 
 		if (!root) return ;
 		
-		m_firstInvalidNode = -1;
-		m_secondInvalidNode = -1;
+		minI = -1;
 
 		// Root node default as a right child of psudo super node
 		solve(root, NULL);
@@ -113,21 +112,31 @@ public:
 		{
 			if ((i + 1 < m_nodes.size()) && m_nodes[i]->val >= m_nodes[i + 1]->val)
 			{
-				if (m_firstInvalidNode < 0) m_firstInvalidNode = i;
-				else m_secondInvalidNode = i;
+				minI = i;
+				break;
 			}
 		}
 
-		if (m_firstInvalidNode < 0 && m_secondInvalidNode < 0) return;
-		if (m_firstInvalidNode > 0 && m_secondInvalidNode > 0)
+		if (minI < 0) return;
+	
+		// Exchange value
+		value = m_nodes[minI]->val;
+		minV = value;
+		j = -1;
+		for (i = minI + 1; i < m_nodes.size(); i++)
 		{
-			// Exchange value
-			value = m_nodes[m_secondInvalidNode]->val;
-			m_nodes[m_secondInvalidNode]->val = m_nodes[m_firstInvalidNode]->val;
-			m_nodes[m_firstInvalidNode]->val = value;
+			if (minV > m_nodes[i]->val)
+			{
+				j = i;
+				minV = m_nodes[i]->val;
+			}
 		}
-
-		// Impossible execute to here
+		if (j >= 0)
+		{
+			m_nodes[j]->val = value;
+			m_nodes[minI]->val = minV;
+		}
+		
 	}
 
 };
@@ -137,17 +146,20 @@ int main()
 {
 	Solution sln;
 	vector<int> ret;
-	vector<int> nums = { 1, 3,NULL_NODE,NULL_NODE,2, };
-	//vector<int> nums = { 3, 1, 4, NULL_NODE,NULL_NODE,2, };
+	//vector<int> nums = { 1, 3,NULL_NODE,NULL_NODE,2, };
+	vector<int> nums = { 3, 1, 4, NULL_NODE,NULL_NODE,2, };
 	TreeNode* root;
 
 	root = createTree(nums);
 	puts("Before recover [In-order treval]:");
 	inorderPrintTree(root);
+	puts("");
+
 	sln.recoverTree(root);
+
 	puts("After recover [In-order treval]:");
 	inorderPrintTree(root);
-	
+	puts("");
 
 	return 0;
 }
